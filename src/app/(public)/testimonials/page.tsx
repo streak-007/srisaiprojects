@@ -1,7 +1,14 @@
 import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
-const FALLBACK = [
+type TestimonialItem = {
+  student_name: string;
+  college: string;
+  quote: string;
+  project_title: string | null;
+};
+
+const FALLBACK: TestimonialItem[] = [
   {
     student_name: "Ananya R.",
     college: "JNTU affiliated college",
@@ -30,7 +37,7 @@ export const metadata = {
 };
 
 export default async function TestimonialsPage() {
-  let items = FALLBACK;
+  let items: TestimonialItem[] = FALLBACK;
   if (isSupabaseConfigured()) {
     const supabase = await createClient();
     const { data } = await supabase
@@ -38,7 +45,14 @@ export default async function TestimonialsPage() {
       .select("*")
       .eq("published", true)
       .order("created_at", { ascending: false });
-    if (data?.length) items = data;
+    if (data?.length) {
+      items = data.map((row) => ({
+        student_name: row.student_name,
+        college: row.college,
+        quote: row.quote,
+        project_title: row.project_title,
+      }));
+    }
   }
 
   return (

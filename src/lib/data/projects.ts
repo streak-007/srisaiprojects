@@ -34,7 +34,9 @@ export async function getPublishedProjects(filters: ProjectFilters = {}): Promis
   let query = supabase.from("projects").select("*").eq("status", "published");
 
   if (filters.year) query = query.eq("target_year", Number(filters.year));
-  if (filters.category) query = query.eq("category", filters.category);
+  if (filters.category === "final_year" || filters.category === "minor") {
+    query = query.eq("category", filters.category);
+  }
   if (filters.branch) query = query.contains("branch_tags", [filters.branch]);
   if (filters.domain) query = query.contains("domain_tags", [filters.domain]);
   if (filters.q) query = query.or(
