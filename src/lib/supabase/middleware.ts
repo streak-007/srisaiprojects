@@ -1,19 +1,29 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getSupabaseAnonKey, getSupabaseUrl, isSupabaseConfigured } from "@/lib/env";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const configured = Boolean(url && key && !url.includes("YOUR_PROJECT"));
+  const path = request.nextUrl.pathname;
+  const isAdminRoute = path.startsWith("/admin");
+  const isLogin = path === "/admin/login";
 
-  // Demo mode: allow browsing admin UI with mock data
-  if (!configured) {
+  // Without Supabase env: block admin UI behind login page (no open dashboard)
+  if (!isSupabaseConfigured()) {
+    if (isAdminRoute && !isLogin) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/admin/login";
+      redirectUrl.searchParams.set("next", path);
+      return NextResponse.redirect(redirectUrl);
+    }
     return supabaseResponse;
   }
 
-  const supabase = createServerClient(url!, key!, {
+  const url = getSupabaseUrl();
+  const key = getSupabaseAnonKey();
+
+  const supabase = createServerClient(url, key, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -33,10 +43,6 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  const path = request.nextUrl.pathname;
-  const isAdminRoute = path.startsWith("/admin");
-  const isLogin = path === "/admin/login";
 
   if (isAdminRoute && !isLogin && !user) {
     const redirectUrl = request.nextUrl.clone();

@@ -37,5 +37,6 @@ export function whatsappUrl(message?: string) {
 }
 
 export function siteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  return raw.replace(/\/+$/, "");
 }
