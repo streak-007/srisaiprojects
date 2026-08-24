@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CopyPrivateLinkButton } from "@/components/admin/copy-private-link-button";
 import { formatInr } from "@/lib/format";
 import { getAllProjectsAdmin } from "@/lib/data/projects";
 
@@ -22,7 +23,7 @@ export default async function AdminProjectsPage() {
               <th className="px-3 py-3">Status</th>
               <th className="px-3 py-3">Year</th>
               <th className="px-3 py-3">From</th>
-              <th className="px-3 py-3" />
+              <th className="px-3 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -32,10 +33,13 @@ export default async function AdminProjectsPage() {
                 <td className="px-3 py-3 capitalize">{p.status.replace("_", " ")}</td>
                 <td className="px-3 py-3">{p.target_year}</td>
                 <td className="px-3 py-3">{formatInr(p.starting_from)}</td>
-                <td className="px-3 py-3 text-right">
-                  <Link href={`/admin/projects/${p.id}`} className="font-semibold text-teal">
-                    Edit
-                  </Link>
+                <td className="px-3 py-3">
+                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-end">
+                    <Link href={`/admin/projects/${p.id}`} className="font-semibold text-teal">
+                      Edit
+                    </Link>
+                    <CopyPrivateLinkButton projectId={p.id} projectTitle={p.title} compact />
+                  </div>
                 </td>
               </tr>
             ))}

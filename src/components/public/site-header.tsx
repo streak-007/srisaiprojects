@@ -22,6 +22,13 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <Link
+            href="/admin/login"
+            className="btn-secondary !px-3 !py-2 text-sm"
+            title="Admin login (student accounts coming later)"
+          >
+            Login
+          </Link>
           <Link href="/projects" className="btn-primary !px-4 !py-2 text-sm">
             Find a project
           </Link>

@@ -51,8 +51,10 @@ export default async function AdminDashboardPage() {
 
       {!isSupabaseConfigured() ? (
         <p className="mt-8 rounded-xl border border-copper/30 bg-copper-soft/50 p-4 text-sm">
-          Running in demo mode with mock projects. Copy <code>.env.example</code> to{" "}
-          <code>.env.local</code>, create a Supabase project, run the SQL migration, then restart.
+          Supabase env vars are missing on this deployment. Set{" "}
+          <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+          <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> (or{" "}
+          <code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code>) in Vercel, then Redeploy.
         </p>
       ) : null}
     </div>

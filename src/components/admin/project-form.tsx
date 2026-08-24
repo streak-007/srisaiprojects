@@ -13,6 +13,8 @@ import { computeEstimate } from "@/lib/estimates";
 import { formatInr, slugify } from "@/lib/format";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import type { Project, ProjectAddon, ProjectComponent } from "@/lib/types";
+import { GalleryUploadField, ImageUploadField } from "@/components/admin/image-upload";
+import { CopyPrivateLinkButton } from "@/components/admin/copy-private-link-button";
 
 type Props = {
   project?: Project;
@@ -39,6 +41,8 @@ export function ProjectForm({ project, initialComponents = [], initialAddons = [
   const [addons, setAddons] = useState<AddonDraft[]>(
     initialAddons.map((a) => ({ name: a.name, type: a.type, value: a.value })),
   );
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(project?.cover_image_url ?? null);
+  const [galleryUrls, setGalleryUrls] = useState<string[]>(project?.gallery ?? []);
 
   const estimate = useMemo(() => computeEstimate(components, addons), [components, addons]);
   const startingFrom = estimate.total || project?.starting_from || 0;
@@ -58,11 +62,8 @@ export function ProjectForm({ project, initialComponents = [], initialAddons = [
       target_year: Number(form.get("target_year") || 4),
       branch_tags: form.getAll("branch_tags").map(String),
       domain_tags: form.getAll("domain_tags").map(String),
-      cover_image_url: String(form.get("cover_image_url") || "") || null,
-      gallery: String(form.get("gallery") || "")
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      cover_image_url: coverImageUrl,
+      gallery: galleryUrls,
       status: String(form.get("status") || "draft") as Project["status"],
       starting_from: Number(form.get("starting_from") || startingFrom),
       features: String(form.get("features") || "")
@@ -84,7 +85,9 @@ export function ProjectForm({ project, initialComponents = [], initialAddons = [
     };
 
     if (!isSupabaseConfigured()) {
-      setError("Supabase is not configured. Save will work after you add .env.local keys.");
+      setError(
+        "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY (or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) on Vercel, then redeploy.",
+      );
       setSaving(false);
       return;
     }
@@ -146,6 +149,18 @@ export function ProjectForm({ project, initialComponents = [], initialAddons = [
 
   return (
     <form onSubmit={onSubmit} className="space-y-8">
+      {project ? (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-copper-soft/40 p-4">
+          <div>
+            <p className="text-sm font-bold text-ink">Private full-details link</p>
+            <p className="text-xs text-ink-muted">
+              Students with this link see the full estimate breakdown and deliverables.
+            </p>
+          </div>
+          <CopyPrivateLinkButton projectId={project.id} projectTitle={project.title} />
+        </div>
+      ) : null}
+
       <div className="grid gap-4 md:grid-cols-2">
         <label className="block text-sm font-semibold md:col-span-2">
           Title
@@ -243,22 +258,15 @@ export function ProjectForm({ project, initialComponents = [], initialAddons = [
             ))}
           </div>
         </fieldset>
-        <label className="block text-sm font-semibold md:col-span-2">
-          Cover image URL
-          <input
-            name="cover_image_url"
-            className="input-field mt-1"
-            defaultValue={project?.cover_image_url ?? ""}
+        <div className="md:col-span-2 space-y-4 rounded-2xl border border-line bg-white p-4">
+          <ImageUploadField
+            label="Cover image"
+            value={coverImageUrl}
+            onChange={setCoverImageUrl}
+            folder="covers"
           />
-        </label>
-        <label className="block text-sm font-semibold md:col-span-2">
-          Gallery URLs (one per line)
-          <textarea
-            name="gallery"
-            className="input-field mt-1 min-h-24"
-            defaultValue={project?.gallery.join("\n")}
-          />
-        </label>
+          <GalleryUploadField urls={galleryUrls} onChange={setGalleryUrls} />
+        </div>
         <label className="block text-sm font-semibold md:col-span-2">
           Features (one per line)
           <textarea
