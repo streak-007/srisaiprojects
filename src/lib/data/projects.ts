@@ -1,6 +1,6 @@
 import { isSupabaseConfigured } from "@/lib/env";
 import { MOCK_PROJECTS } from "@/lib/mock-data";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createPublicClient } from "@/lib/supabase/server";
 import type { Project } from "@/lib/types";
 
 export type ProjectFilters = {
@@ -30,7 +30,7 @@ function filterMock(filters: ProjectFilters = {}) {
 export async function getPublishedProjects(filters: ProjectFilters = {}): Promise<Project[]> {
   if (!isSupabaseConfigured()) return filterMock(filters);
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   let query = supabase.from("projects").select("*").eq("status", "published");
 
   if (filters.year) query = query.eq("target_year", Number(filters.year));
@@ -65,7 +65,7 @@ export async function getFeaturedProjects(): Promise<Project[]> {
   if (!isSupabaseConfigured()) {
     return MOCK_PROJECTS.filter((p) => p.featured && p.status === "published").slice(0, 3);
   }
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("projects")
     .select("*")
@@ -83,7 +83,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   if (!isSupabaseConfigured()) {
     return MOCK_PROJECTS.find((p) => p.slug === slug && p.status === "published") ?? null;
   }
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("projects")
     .select("*")
