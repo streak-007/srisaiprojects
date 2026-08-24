@@ -1,0 +1,2 @@
+title,short_description,full_description,category,target_year,branch_tags,domain_tags,starting_from,status
+Sample IoT Weather Station,Desktop weather kit with OLED readout,A beginner-friendly IoT weather station using DHT22 and OLED display.,minor,2,ECE|EEE,IoT|Embedded,3800,draft
