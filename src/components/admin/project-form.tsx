@@ -14,7 +14,8 @@ import { formatInr, slugify } from "@/lib/format";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import type { Project, ProjectAddon, ProjectComponent } from "@/lib/types";
 import { GalleryUploadField, ImageUploadField } from "@/components/admin/image-upload";
-import { CopyPrivateLinkButton } from "@/components/admin/copy-private-link-button";
+import { ShareProjectDetailsButton } from "@/components/admin/share-project-details-button";
+import { DeleteProjectButton } from "@/components/admin/delete-project-button";
 
 type Props = {
   project?: Project;
@@ -152,12 +153,19 @@ export function ProjectForm({ project, initialComponents = [], initialAddons = [
       {project ? (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-copper-soft/40 p-4">
           <div>
-            <p className="text-sm font-bold text-ink">Private full-details link</p>
+            <p className="text-sm font-bold text-ink">Share full details</p>
             <p className="text-xs text-ink-muted">
-              Students with this link see the full estimate breakdown and deliverables.
+              Generates a private link with the estimate, copies it, and opens WhatsApp.
             </p>
           </div>
-          <CopyPrivateLinkButton projectId={project.id} projectTitle={project.title} />
+          <div className="flex flex-wrap items-center gap-3">
+            <ShareProjectDetailsButton
+              projectId={project.id}
+              projectTitle={title || project.title}
+              startingFrom={startingFrom || project.starting_from}
+            />
+            <DeleteProjectButton projectId={project.id} projectTitle={title || project.title} />
+          </div>
         </div>
       ) : null}
 

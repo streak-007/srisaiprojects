@@ -4,16 +4,11 @@ import { notFound } from "next/navigation";
 import { Gallery } from "@/components/public/gallery";
 import { RequestForm } from "@/components/public/request-form";
 import { formatInr } from "@/lib/format";
-import { getProjectBySlug, getPublishedProjects } from "@/lib/data/projects";
+import { getProjectBySlug } from "@/lib/data/projects";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
-
-export async function generateStaticParams() {
-  const projects = await getPublishedProjects();
-  return projects.map((p) => ({ slug: p.slug }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

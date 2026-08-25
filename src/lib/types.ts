@@ -57,6 +57,18 @@ export type DetailRequest = {
   projects?: Pick<Project, "id" | "title" | "slug"> | null;
 };
 
+export type Testimonial = {
+  id: string;
+  student_name: string;
+  college: string;
+  quote: string;
+  project_title: string | null;
+  photo_url: string | null;
+  published: boolean;
+  rating: number | null;
+  created_at: string;
+};
+
 export type DetailLink = {
   id: string;
   project_id: string;

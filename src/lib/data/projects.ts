@@ -1,6 +1,7 @@
 import { isSupabaseConfigured } from "@/lib/env";
 import { MOCK_PROJECTS } from "@/lib/mock-data";
-import { createClient, createPublicClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
+import { createClient } from "@/lib/supabase/server";
 import type { Project } from "@/lib/types";
 
 export type ProjectFilters = {

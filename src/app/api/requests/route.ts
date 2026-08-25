@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/env";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, demo: true });
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { error } = await supabase.from("detail_requests").insert({
     project_id: body.project_id,
     student_name: body.student_name,

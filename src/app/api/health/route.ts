@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/env";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 /** Uptime pingers hit this to keep Supabase free tier from pausing. */
 export async function GET() {
@@ -9,7 +9,7 @@ export async function GET() {
 
   if (isSupabaseConfigured()) {
     try {
-      const supabase = await createClient();
+      const supabase = createPublicClient();
       const { error } = await supabase.from("projects").select("id").limit(1);
       db = error ? "error" : "ok";
     } catch {

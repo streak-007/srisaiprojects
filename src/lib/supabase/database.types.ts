@@ -135,6 +135,7 @@ export type Database = {
           project_title: string | null;
           photo_url: string | null;
           published: boolean;
+          rating: number | null;
           created_at: string;
         };
         Insert: {
@@ -145,6 +146,7 @@ export type Database = {
           project_title?: string | null;
           photo_url?: string | null;
           published?: boolean;
+          rating?: number | null;
         };
         Update: Partial<Database["public"]["Tables"]["testimonials"]["Row"]>;
         Relationships: [];
