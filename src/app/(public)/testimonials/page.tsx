@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { isSupabaseConfigured } from "@/lib/env";
 import { createPublicClient } from "@/lib/supabase/public";
 
@@ -42,6 +43,9 @@ export const metadata = {
 };
 
 export default async function TestimonialsPage() {
+  // Stories must reflect review approvals and deletions without a redeploy.
+  await connection();
+
   let items: TestimonialItem[] = FALLBACK;
   let fromDb = false;
 
