@@ -26,7 +26,12 @@ export async function POST(request: Request) {
 
   const admin = createServiceClient();
 
-  // Reuse an open-ended project share link if one already exists (no request_id)
+  const { data: project } = await admin
+    .from("projects")
+    .select("title, starting_from")
+    .eq("id", projectId)
+    .maybeSingle();
+
   const { data: existing } = await admin
     .from("detail_links")
     .select("token")
@@ -59,5 +64,10 @@ export async function POST(request: Request) {
   }
 
   const url = `${siteUrl()}/full/${token}`;
-  return NextResponse.json({ token, url });
+  return NextResponse.json({
+    token,
+    url,
+    title: project?.title ?? null,
+    starting_from: project?.starting_from ?? null,
+  });
 }

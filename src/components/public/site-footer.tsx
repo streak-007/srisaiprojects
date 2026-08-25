@@ -17,6 +17,7 @@ export function SiteFooter() {
             <li><Link href="/projects" className="hover:text-teal">Project catalog</Link></li>
             <li><Link href="/how-it-works" className="hover:text-teal">How it works</Link></li>
             <li><Link href="/testimonials" className="hover:text-teal">Student stories</Link></li>
+            <li><Link href="/feedback" className="hover:text-teal">Leave a review</Link></li>
           </ul>
         </div>
         <div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CopyPrivateLinkButton } from "@/components/admin/copy-private-link-button";
+import { DeleteProjectButton } from "@/components/admin/delete-project-button";
+import { ShareProjectDetailsButton } from "@/components/admin/share-project-details-button";
 import { formatInr } from "@/lib/format";
 import { getAllProjectsAdmin } from "@/lib/data/projects";
 
@@ -34,11 +35,17 @@ export default async function AdminProjectsPage() {
                 <td className="px-3 py-3">{p.target_year}</td>
                 <td className="px-3 py-3">{formatInr(p.starting_from)}</td>
                 <td className="px-3 py-3">
-                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-end">
+                  <div className="flex flex-col items-start gap-2 sm:items-end">
                     <Link href={`/admin/projects/${p.id}`} className="font-semibold text-teal">
                       Edit
                     </Link>
-                    <CopyPrivateLinkButton projectId={p.id} projectTitle={p.title} compact />
+                    <ShareProjectDetailsButton
+                      projectId={p.id}
+                      projectTitle={p.title}
+                      startingFrom={p.starting_from}
+                      compact
+                    />
+                    <DeleteProjectButton projectId={p.id} projectTitle={p.title} compact />
                   </div>
                 </td>
               </tr>

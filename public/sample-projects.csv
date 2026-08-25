@@ -1,2 +1,3 @@
-title,short_description,full_description,category,target_year,branch_tags,domain_tags,starting_from,status
-Sample IoT Weather Station,Desktop weather kit with OLED readout,A beginner-friendly IoT weather station using DHT22 and OLED display.,minor,2,ECE|EEE,IoT|Embedded,3800,draft
+title,short_description,full_description,category,target_year,branch_tags,domain_tags,starting_from,status,features,tech_stack,deliverables,timeline_days,featured,demo_video_url,cover_image_url
+Smart Irrigation System (IoT),Soil-moisture drip control with phone alerts,"Build an IoT irrigation kit: soil sensors, ESP32, valves, and a dashboard for viva demos.",final_year,4,ECE|EEE,IoT|Embedded,6500,draft,Auto watering|Phone alerts|Solar-ready,ESP32|MQTT|Firebase,Working kit|Source code|Report PDF|PPT,14,false,,
+Campus Lost & Found Web App,Campus app for lost items and claim verification,"Students post lost/found items with photos. Admins verify claims.",minor,3,CSE,Web/App Dev,4500,draft,Auth + roles|Image uploads|Claim workflow,Next.js|Supabase|Tailwind,Deployed app|Source repo|Report,10,false,,

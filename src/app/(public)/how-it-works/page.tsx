@@ -17,6 +17,10 @@ const steps = [
     title: "Book & deliver",
     body: "Confirm on WhatsApp, pay the agreed advance, and we deliver kit + docs with viva support.",
   },
+  {
+    title: "Leave a review",
+    body: "After delivery, share how it went. We approve genuine feedback before it appears on Stories.",
+  },
 ];
 
 export const metadata = {
@@ -45,9 +49,14 @@ export default function HowItWorksPage() {
         ))}
       </ol>
 
-      <Link href="/projects" className="btn-primary mt-10 inline-flex">
-        Start browsing
-      </Link>
+      <div className="mt-10 flex flex-wrap gap-3">
+        <Link href="/projects" className="btn-primary inline-flex">
+          Start browsing
+        </Link>
+        <Link href="/feedback" className="btn-secondary inline-flex">
+          Leave a review
+        </Link>
+      </div>
     </div>
   );
 }
