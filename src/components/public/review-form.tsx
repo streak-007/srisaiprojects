@@ -10,7 +10,8 @@ export function ReviewForm() {
     e.preventDefault();
     setStatus("loading");
     setMessage("");
-    const form = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const form = new FormData(formElement);
     const payload = {
       student_name: String(form.get("student_name") || ""),
       college: String(form.get("college") || ""),
@@ -28,7 +29,7 @@ export function ReviewForm() {
       if (!res.ok) throw new Error(await res.text());
       setStatus("done");
       setMessage("Thanks — your review was sent. It appears on the site after we approve it.");
-      e.currentTarget.reset();
+      formElement.reset();
     } catch {
       setStatus("error");
       setMessage("Could not send the review. Try again or message us on WhatsApp.");

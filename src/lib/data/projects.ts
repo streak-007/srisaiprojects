@@ -45,7 +45,7 @@ export async function getPublishedProjects(filters: ProjectFilters = {}): Promis
   );
 
   const { data, error } = await query.order("created_at", { ascending: false });
-  if (error || !data) return filterMock(filters);
+  if (error || !data) return [];
   return data.map(normalizeProject);
 }
 
@@ -74,9 +74,7 @@ export async function getFeaturedProjects(): Promise<Project[]> {
     .eq("featured", true)
     .order("created_at", { ascending: false })
     .limit(3);
-  if (error || !data?.length) {
-    return MOCK_PROJECTS.filter((p) => p.featured).slice(0, 3);
-  }
+  if (error || !data) return [];
   return data.map(normalizeProject);
 }
 
@@ -91,9 +89,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     .eq("slug", slug)
     .eq("status", "published")
     .maybeSingle();
-  if (error || !data) {
-    return MOCK_PROJECTS.find((p) => p.slug === slug) ?? null;
-  }
+  if (error || !data) return null;
   return normalizeProject(data as Project);
 }
 
@@ -104,7 +100,7 @@ export async function getAllProjectsAdmin(): Promise<Project[]> {
     .from("projects")
     .select("*")
     .order("updated_at", { ascending: false });
-  if (error || !data) return MOCK_PROJECTS;
+  if (error || !data) return [];
   return data.map(normalizeProject);
 }
 
@@ -118,6 +114,6 @@ export async function getProjectById(id: string): Promise<Project | null> {
     .select("*")
     .eq("id", id)
     .maybeSingle();
-  if (error || !data) return MOCK_PROJECTS.find((p) => p.id === id) ?? null;
+  if (error || !data) return null;
   return normalizeProject(data as Project);
 }

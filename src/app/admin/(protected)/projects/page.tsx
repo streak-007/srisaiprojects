@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CsvImportForm } from "@/components/admin/csv-import-form";
 import { DeleteProjectButton } from "@/components/admin/delete-project-button";
 import { ShareProjectDetailsButton } from "@/components/admin/share-project-details-button";
 import { formatInr } from "@/lib/format";
@@ -53,6 +54,16 @@ export default async function AdminProjectsPage() {
           </tbody>
         </table>
       </div>
+
+      <section className="mt-8">
+        <h2 className="font-display text-2xl font-extrabold">Import projects from CSV</h2>
+        <p className="mt-1 text-sm text-ink-muted">
+          Add multiple projects at once, then open each project to add images and a detailed cost breakdown.
+        </p>
+        <div className="mt-4">
+          <CsvImportForm />
+        </div>
+      </section>
     </div>
   );
 }
