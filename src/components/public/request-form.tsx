@@ -16,7 +16,8 @@ export function RequestForm({ projectId, projectTitle }: Props) {
     e.preventDefault();
     setStatus("loading");
     setMessage("");
-    const form = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const form = new FormData(formElement);
     const payload = {
       project_id: projectId,
       student_name: String(form.get("student_name") || ""),
@@ -36,7 +37,7 @@ export function RequestForm({ projectId, projectTitle }: Props) {
       if (!res.ok) throw new Error(await res.text());
       setStatus("done");
       setMessage("Request sent! We’ll share a private full-details link after review.");
-      e.currentTarget.reset();
+      formElement.reset();
     } catch {
       setStatus("error");
       setMessage("Could not send right now. Try WhatsApp or retry in a moment.");

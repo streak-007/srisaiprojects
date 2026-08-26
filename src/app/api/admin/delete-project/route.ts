@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
@@ -21,10 +22,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing project_id" }, { status: 400 });
   }
 
-  const { error } = await supabase.from("projects").delete().eq("id", projectId);
+  const { data: deletedProjects, error } = await supabase
+    .from("projects")
+    .delete()
+    .eq("id", projectId)
+    .select("id, slug");
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  const deletedProject = deletedProjects?.[0];
+  if (!deletedProject) {
+    return NextResponse.json(
+      { error: "Project was not deleted. It may no longer exist or you do not have permission." },
+      { status: 404 },
+    );
+  }
+
+  revalidatePath("/");
+  revalidatePath("/projects");
+  revalidatePath(`/projects/${deletedProject.slug}`);
+
+  return NextResponse.json({ ok: true, deleted_project_id: deletedProject.id });
 }

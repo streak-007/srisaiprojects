@@ -57,8 +57,8 @@ export default async function AdminDashboardPage() {
             <Link href="/admin/projects/new" className="btn-primary !py-2 text-sm">
               Add project
             </Link>
-            <Link href="/admin/import" className="btn-secondary !py-2 text-sm">
-              CSV import
+            <Link href="/admin/projects" className="btn-secondary !py-2 text-sm">
+              Import projects
             </Link>
             <Link href="/admin/help" className="text-sm font-semibold text-teal">
               How to use this panel →

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ReviewCsvImportForm } from "@/components/admin/review-csv-import-form";
 import { ReviewsTable } from "@/components/admin/reviews-table";
 import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
@@ -38,6 +39,15 @@ export default async function AdminReviewsPage() {
       <div className="mt-6">
         <ReviewsTable reviews={reviews} />
       </div>
+      <section className="mt-8">
+        <h2 className="font-display text-2xl font-extrabold">Import reviews from CSV</h2>
+        <p className="mt-1 text-sm text-ink-muted">
+          Imported reviews are pending by default, unless the CSV explicitly marks them as published.
+        </p>
+        <div className="mt-4">
+          <ReviewCsvImportForm />
+        </div>
+      </section>
     </div>
   );
 }
