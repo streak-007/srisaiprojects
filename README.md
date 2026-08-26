@@ -166,5 +166,6 @@ admin_users
 ## 9. What I Need From You Next
 
 - Your exact **estimate formula/logic** (component costs + labor % + documentation charges, etc.) so I configure the calculator engine precisely.
-- Your **branch/domain categories** (exact list you want to tag projects with).
-- Whether the "full details" link should be **one link per project** (same for everyone) or **one unique link per student request** (more secure, trackable) — my recommendation above is the latter.
+- Agent to send the notification when we receive a request
+= Add delivery date in the projects public page for better expierience
+- End goal, make the e-commerce space like expierience, browse -> order -> delivery 
