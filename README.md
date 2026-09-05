@@ -1,5 +1,7 @@
 # Sri Sai Projects — Website Specification
 
+https://srisaiprojects.vercel.app/
+
 A showcase + inquiry platform for final-year major projects and 2nd/3rd-year minor projects, with an admin panel to add projects and generate cost estimates, and a student-facing catalog with shareable "full detail" links.
 
 ---
